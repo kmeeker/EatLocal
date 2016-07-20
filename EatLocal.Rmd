@@ -1,0 +1,45 @@
+---
+title: "EatLocal"
+subtitle: "a Data Products course Shiny App project"
+author: "Kirsten Meeker"
+date: "July 3, 2016"
+framework : io2012
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+source('EatLocal.R')
+```
+
+## EatLocal Shiny App
+The EatLocal Shiny App displays a map showing locations of US Community Supported Agriculture and Farmer's Markets available for the month of the date entered.
+ 
+**Inputs**  
+1. Select checkboxes to display CSA's, Farmer's Markets, or both    
+2. Enter date to display CSA's and markets in season
+
+Data from the US Dept of Agriculture and google maps were combined to obtain the US map and locate the CSA's and farmers markets by latitude and longitude.
+
+## Data Background
+### Community Supported Agriculture
+The US Dept of Agriculture's Community Supported Agriculture Directory lists farm or network/association of multiple farms that offer consumers regular (usually weekly) deliveries of locally-grown farm products during one or more harvest season(s) on a subscription or membership basis. Customers have access to a selected share or range of farm products offered by a single farm or group of farmers based on partial or total advance payment of a subscription or membership fee.
+
+### Farmer's Markets
+The USDA National Farmers Market Directory, maintained by AMS Marketing Services, is designed to provide members of the public with convenient access to information about U.S. farmers market locations, directions, operating times, product offerings, and accepted forms of payment. Market information included in the Directory is voluntary and self-reported to AMS by market managers, representatives from State farmers market agencies and associations, and other key market personnel.
+
+---
+## EatLocal @ this month's CSA's and Farmer's Markets
+```{r plot_eat_local_map , echo=FALSE, warning=FALSE}
+    csa <- read.csv("CSA_loc.csv", stringsAsFactors = FALSE)
+    csa_loc <- subset(csa, !is.na(lat) & !is.na(lon))
+
+    fm <- read.csv("FarmersMarkets_loc.csv", stringsAsFactors = FALSE)
+    fm_loc <- subset(fm, !is.na(lat) & !is.na(lon))
+
+    currentDate<-Sys.Date()
+
+    plot_eat_local_map(currentDate)
+    
+```
+
